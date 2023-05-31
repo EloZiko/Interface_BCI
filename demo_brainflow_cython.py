@@ -3,7 +3,7 @@ import numpy as np
 import PySimpleGUI as sg
 import time
 import random
-from utils_mi import *
+#from utils_mi import *
 import argparse
 import time
 from brainflow.board_shim import BoardShim, BrainFlowInputParams, BoardIds, BrainFlowPresets
@@ -32,6 +32,22 @@ layout = [[sg.Text('Motor Imagery', size=(20,1))],
 
 window = sg.Window('My new window', layout, default_element_size=(12, 1), auto_size_text=False, finalize=True)
 current_time, paused_time, paused = 0, 0, False
+
+def time_int():
+    return int(round(time.time() * 100))
+
+def LEDIndicator(key=None, radius=100):
+    return sg.Graph(canvas_size=(radius, radius),
+             graph_bottom_left=(-radius, -radius),
+             graph_top_right=(radius, radius),
+             pad=(0, 0), key=key)
+
+
+
+def SetLED(window, key, color):
+    graph = window[key]
+    graph.erase()
+    graph.draw_circle((0, 0), 12, fill_color=color, line_color=color)
 
 def set_leds_gray():
     SetLED(window, '_left_',  'gray')
